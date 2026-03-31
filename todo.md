@@ -100,9 +100,9 @@
 ## Documentação
 
 - [x] README.md completo
-- [ ] Guia de contribuição
-- [ ] API documentation
-- [ ] Deployment guide
+- [x] Guia de contribuição (CONTRIBUTING.md)
+- [x] API documentation (API.md)
+- [x] Deployment guide (DEPLOYMENT.md)
 
 ## Deploy
 
