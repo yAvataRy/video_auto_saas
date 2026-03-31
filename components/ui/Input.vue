@@ -12,12 +12,14 @@
     <div class="relative">
       <input
         :id="inputId"
+        :name="inputId"
         ref="inputRef"
         :type="type"
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
         :readonly="readonly"
+        :autocomplete="autocomplete"
         :class="inputClasses"
         @input="$emit('update:modelValue', $event.target.value)"
         @blur="$emit('blur', $event)"
@@ -48,6 +50,7 @@ interface Props {
   label?: string;
   placeholder?: string;
   type?: string;
+  autocomplete?: string;
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
@@ -59,6 +62,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   type: "text",
+  autocomplete: "off",
   disabled: false,
   readonly: false,
   required: false,

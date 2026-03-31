@@ -3,7 +3,10 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Create Account</h2>
 
     <!-- Error Message -->
-    <div v-if="error" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+    <div
+      v-if="error"
+      class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg"
+    >
       <p class="text-red-700 text-sm">{{ error }}</p>
     </div>
 
@@ -16,8 +19,10 @@
         </label>
         <input
           id="name"
+          name="name"
           v-model="form.name"
           type="text"
+          autocomplete="name"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="John Doe"
         />
@@ -30,9 +35,11 @@
         </label>
         <input
           id="email"
+          name="email"
           v-model="form.email"
           type="email"
           required
+          autocomplete="email"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="you@example.com"
         />
@@ -40,14 +47,19 @@
 
       <!-- Password -->
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          for="password"
+          class="block text-sm font-medium text-gray-700 mb-1"
+        >
           Password
         </label>
         <input
           id="password"
+          name="password"
           v-model="form.password"
           type="password"
           required
+          autocomplete="new-password"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="••••••••"
         />
@@ -78,7 +90,10 @@
     <!-- Login Link -->
     <p class="text-center text-gray-600 text-sm">
       Already have an account?
-      <NuxtLink to="/login" class="text-blue-600 font-semibold hover:text-blue-700">
+      <NuxtLink
+        to="/login"
+        class="text-blue-600 font-semibold hover:text-blue-700"
+      >
         Sign in
       </NuxtLink>
     </p>
@@ -86,17 +101,17 @@
 </template>
 
 <script setup lang="ts">
-import type { RegisterCredentials } from '~/types';
+import type { RegisterCredentials } from "~/types";
 
 definePageMeta({
-  layout: 'auth',
-  middleware: 'guest',
+  layout: "auth",
+  middleware: "guest",
 });
 
 const form = reactive<RegisterCredentials>({
-  email: '',
-  password: '',
-  name: '',
+  email: "",
+  password: "",
+  name: "",
 });
 
 const loading = ref(false);
@@ -110,7 +125,10 @@ const handleRegister = async () => {
   try {
     await register(form);
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Registration failed. Please try again.';
+    error.value =
+      err instanceof Error
+        ? err.message
+        : "Registration failed. Please try again.";
   } finally {
     loading.value = false;
   }
