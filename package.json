@@ -20,7 +20,8 @@
     "cookie": "^1.1.1",
     "nuxt": "^4.4.2",
     "pinia": "^2.1.7",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.7.0",

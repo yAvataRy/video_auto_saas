@@ -6,38 +6,43 @@ export default defineNuxtConfig({
   },
 
   // Módulos
-  modules: [
-    '@pinia/nuxt',
-    '@nuxtjs/supabase',
-  ],
+  modules: ["@pinia/nuxt", "@nuxt/ui"],
 
   // CSS e Tailwind
-  css: ['~/assets/main.css'],
+  css: ["~/assets/main.css"],
 
   tailwindcss: {
     config: {
       theme: {
         extend: {
           colors: {
-            primary: '#3b82f6',
-            secondary: '#8b5cf6',
-            accent: '#ec4899',
+            primary: "#3b82f6",
+            secondary: "#8b5cf6",
+            accent: "#ec4899",
           },
         },
       },
+      safelist: [],
+    },
+  },
+
+  // Vite
+  vite: {
+    optimizeDeps: {
+      include: ["pinia"],
     },
   },
 
   // Runtimes
   runtimeConfig: {
     public: {
-      supabaseUrl: process.env.SUPABASE_URL || '',
-      supabaseKey: process.env.SUPABASE_KEY || '',
+      supabaseUrl: process.env.SUPABASE_URL || "",
+      supabaseKey: process.env.SUPABASE_KEY || "",
     },
   },
 
   // Compatibilidade
-  compatibilityDate: '2024-04-01',
+  compatibilityDate: "2024-04-01",
 
   // TypeScript
   typescript: {

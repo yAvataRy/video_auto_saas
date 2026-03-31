@@ -1,124 +1,228 @@
-import type { Project, CreateProjectInput, UpdateProjectInput, ApiResponse } from '~/types';
+import type { Project, CreateProjectInput, UpdateProjectInput } from "~/types";
+import { projectSchema, validateForm } from "~/utils/validations";
 
-/**
- * Composable para gerenciar projetos
- * Responsável por CRUD de projetos
- */
 export const useProjects = () => {
   const projectStore = useProjectStore();
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  // ============ GET ALL PROJECTS ============
+  const nuxtApp = useNuxtApp();
+  const supabase = nuxtApp.$supabase as any;
+
+  if (!supabase) {
+    throw new Error(
+      "Supabase client não inicializado. Verifique plugins/supabase.client.ts",
+    );
+  }
+
+  const getUserId = async () => {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+
+    if (sessionError) {
+      throw new Error(
+        sessionError.message || "Falha ao obter sessão do Supabase",
+      );
+    }
+
+    const userId = sessionData?.session?.user?.id;
+
+    if (!userId) {
+      throw new Error("Usuário não autenticado");
+    }
+
+    return userId;
+  };
+
+  const handleError = (err: unknown, defaultMessage: string) => {
+    const message = err instanceof Error ? err.message : defaultMessage;
+    error.value = message;
+    console.error(defaultMessage + ":", err);
+    throw new Error(message);
+  };
+
   const fetchProjects = async () => {
     loading.value = true;
     error.value = null;
 
     try {
-      const { data } = await $fetch<ApiResponse<Project[]>>('/api/projects', {
-        method: 'GET',
-      });
+      const userId = await getUserId();
 
-      if (data) {
-        projectStore.setProjects(data);
+      const { data, error: supabaseError } = await supabase
+        .from<Project>("projects")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao buscar projetos");
       }
 
-      return { success: true, data };
+      const projects = data || [];
+      projectStore.setProjects(projects);
+
+      return {
+        success: true,
+        data: projects,
+      };
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Erro ao buscar projetos';
-      console.error('Fetch projects error:', err);
-      throw err;
+      return handleError(err, "Erro ao buscar projetos");
     } finally {
       loading.value = false;
     }
   };
 
-  // ============ GET PROJECT BY ID ============
   const fetchProjectById = async (id: string) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const { data } = await $fetch<ApiResponse<Project>>(`/api/projects/${id}`, {
-        method: 'GET',
-      });
+      const userId = await getUserId();
 
-      return { success: true, data };
+      const { data, error: supabaseError } = await supabase
+        .from<Project>("projects")
+        .select("*")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .single();
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao buscar projeto");
+      }
+
+      if (!data) {
+        throw new Error("Projeto não encontrado");
+      }
+
+      return {
+        success: true,
+        data,
+      };
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Erro ao buscar projeto';
-      console.error('Fetch project error:', err);
-      throw err;
+      return handleError(err, "Erro ao buscar projeto");
     } finally {
       loading.value = false;
     }
   };
 
-  // ============ CREATE PROJECT ============
   const createProject = async (input: CreateProjectInput) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const { data } = await $fetch<ApiResponse<Project>>('/api/projects', {
-        method: 'POST',
-        body: input,
-      });
+      // Validar dados de entrada
+      const validation = validateForm(
+        projectSchema.omit({ status: true }),
+        input,
+      );
+      if (!validation.success) {
+        throw new Error(
+          Object.values(validation.errors!)[0] || "Dados inválidos",
+        );
+      }
+
+      const userId = await getUserId();
+
+      const { data, error: supabaseError } = await supabase
+        .from<Project>("projects")
+        .insert({
+          user_id: userId,
+          name: validation.data!.name,
+          niche: validation.data!.niche,
+          description: validation.data!.description || "",
+          status: "draft",
+        })
+        .select()
+        .single();
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao criar projeto");
+      }
 
       if (data) {
         projectStore.addProject(data);
       }
 
-      return { success: true, data };
+      return {
+        success: true,
+        data,
+      };
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Erro ao criar projeto';
-      console.error('Create project error:', err);
-      throw err;
+      return handleError(err, "Erro ao criar projeto");
     } finally {
       loading.value = false;
     }
   };
 
-  // ============ UPDATE PROJECT ============
   const updateProject = async (id: string, input: UpdateProjectInput) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const { data } = await $fetch<ApiResponse<Project>>(`/api/projects/${id}`, {
-        method: 'PUT',
-        body: input,
-      });
+      // Validar dados de entrada
+      const validation = validateForm(projectSchema, input);
+      if (!validation.success) {
+        throw new Error(
+          Object.values(validation.errors!)[0] || "Dados inválidos",
+        );
+      }
+
+      const userId = await getUserId();
+
+      const { data, error: supabaseError } = await supabase
+        .from<Project>("projects")
+        .update({
+          ...validation.data,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", id)
+        .eq("user_id", userId)
+        .select()
+        .single();
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao atualizar projeto");
+      }
 
       if (data) {
         projectStore.updateProject(id, data);
       }
 
-      return { success: true, data };
+      return {
+        success: true,
+        data,
+      };
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Erro ao atualizar projeto';
-      console.error('Update project error:', err);
-      throw err;
+      return handleError(err, "Erro ao atualizar projeto");
     } finally {
       loading.value = false;
     }
   };
 
-  // ============ DELETE PROJECT ============
   const deleteProject = async (id: string) => {
     loading.value = true;
     error.value = null;
 
     try {
-      await $fetch(`/api/projects/${id}`, {
-        method: 'DELETE',
-      });
+      const userId = await getUserId();
+
+      const { error: supabaseError } = await supabase
+        .from("projects")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", userId);
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao deletar projeto");
+      }
 
       projectStore.removeProject(id);
-      return { success: true };
+
+      return {
+        success: true,
+      };
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Erro ao deletar projeto';
-      console.error('Delete project error:', err);
-      throw err;
+      return handleError(err, "Erro ao deletar projeto");
     } finally {
       loading.value = false;
     }

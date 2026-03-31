@@ -1,21 +1,43 @@
-import { defineStore } from 'pinia';
-import type { User, LoginCredentials, RegisterCredentials, AuthSession } from '~/types';
+import { defineStore } from "pinia";
+import { useAppToast } from "~/composables/useAppToast";
+import { loginSchema, registerSchema, validateForm } from "~/utils/validations";
+import type {
+  User,
+  LoginCredentials,
+  RegisterCredentials,
+  AuthSession,
+} from "~/types";
 
 /**
  * Composable para gerenciar autenticação
  * Responsável por login, registro, logout e persistência de sessão
  */
 export const useAuth = () => {
-  const supabase = useNuxtApp().$supabase as any;
+  const nuxtApp = useNuxtApp();
+  const supabase = nuxtApp.$supabase;
+  if (!supabase) {
+    throw new Error(
+      "Supabase client não inicializado. Verifique plugins/supabase.client.ts",
+    );
+  }
   const router = useRouter();
   const authStore = useAuthStore();
+  const { addToast } = useAppToast();
 
   // ============ LOGIN ============
   const login = async (credentials: LoginCredentials) => {
     try {
-      const { data, error } = await (supabase as any).auth.signInWithPassword({
-        email: credentials.email,
-        password: credentials.password,
+      // Validar dados de entrada
+      const validation = validateForm(loginSchema, credentials);
+      if (!validation.success) {
+        throw new Error(
+          Object.values(validation.errors!)[0] || "Dados inválidos",
+        );
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: validation.data!.email,
+        password: validation.data!.password,
       });
 
       if (error) {
@@ -23,19 +45,31 @@ export const useAuth = () => {
       }
 
       if (data.user) {
-        authStore.setUser(data.user as unknown as User);
+        const user: User = {
+          id: data.user.id,
+          email: data.user.email || "",
+          name: (data.user.user_metadata?.name as string) || "",
+          avatar_url:
+            (data.user.user_metadata?.avatar_url as string) || undefined,
+          created_at: data.user.created_at,
+          updated_at: data.user.updated_at || data.user.created_at,
+        };
+        authStore.setUser(user);
         authStore.setSession({
-          user: data.user as unknown as User,
+          user,
           access_token: data.session?.access_token || null,
           refresh_token: data.session?.refresh_token || null,
           expires_at: data.session?.expires_at,
         });
       }
 
-      await router.push('/dashboard');
+      await router.push("/dashboard");
+      addToast("Login realizado com sucesso!", "success");
       return { success: true, data };
     } catch (error) {
-      console.error('Login error:', error);
+      const message = error instanceof Error ? error.message : "Erro no login";
+      console.error("Login error:", error);
+      addToast(message, "error");
       throw error;
     }
   };
@@ -43,12 +77,20 @@ export const useAuth = () => {
   // ============ REGISTER ============
   const register = async (credentials: RegisterCredentials) => {
     try {
-      const { data, error } = await (supabase as any).auth.signUp({
-        email: credentials.email,
-        password: credentials.password,
+      // Validar dados de entrada
+      const validation = validateForm(registerSchema, credentials);
+      if (!validation.success) {
+        throw new Error(
+          Object.values(validation.errors!)[0] || "Dados inválidos",
+        );
+      }
+
+      const { data, error } = await supabase.auth.signUp({
+        email: validation.data!.email,
+        password: validation.data!.password,
         options: {
           data: {
-            name: credentials.name || '',
+            name: validation.data!.name,
           },
         },
       });
@@ -58,13 +100,27 @@ export const useAuth = () => {
       }
 
       if (data.user) {
-        authStore.setUser(data.user as unknown as User);
+        const user: User = {
+          id: data.user.id,
+          email: data.user.email || "",
+          name:
+            (data.user.user_metadata?.name as string) || validation.data!.name,
+          avatar_url:
+            (data.user.user_metadata?.avatar_url as string) || undefined,
+          created_at: data.user.created_at,
+          updated_at: data.user.updated_at || data.user.created_at,
+        };
+        authStore.setUser(user);
       }
 
-      await router.push('/login');
+      await router.push("/login");
+      addToast("Cadastro realizado com sucesso!", "success");
       return { success: true, data };
     } catch (error) {
-      console.error('Register error:', error);
+      const message =
+        error instanceof Error ? error.message : "Erro no cadastro";
+      console.error("Register error:", error);
+      addToast(message, "error");
       throw error;
     }
   };
@@ -72,17 +128,20 @@ export const useAuth = () => {
   // ============ LOGOUT ============
   const logout = async () => {
     try {
-      const { error } = await (supabase as any).auth.signOut();
+      const { error } = await supabase.auth.signOut();
 
       if (error) {
         throw new Error(error.message);
       }
 
       authStore.clearSession();
-      await router.push('/login');
+      await router.push("/login");
+      addToast("Logout realizado com sucesso!", "success");
       return { success: true };
     } catch (error) {
-      console.error('Logout error:', error);
+      const message = error instanceof Error ? error.message : "Erro no logout";
+      console.error("Logout error:", error);
+      addToast(message, "error");
       throw error;
     }
   };
@@ -90,16 +149,27 @@ export const useAuth = () => {
   // ============ RESTORE SESSION ============
   const restoreSession = async () => {
     try {
-      const { data, error } = await (supabase as any).auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
 
       if (error) {
         throw new Error(error.message);
       }
 
       if (data.session?.user) {
-        authStore.setUser(data.session.user as unknown as User);
+        const user: User = {
+          id: data.session.user.id,
+          email: data.session.user.email || "",
+          name: (data.session.user.user_metadata?.name as string) || "",
+          avatar_url:
+            (data.session.user.user_metadata?.avatar_url as string) ||
+            undefined,
+          created_at: data.session.user.created_at,
+          updated_at:
+            data.session.user.updated_at || data.session.user.created_at,
+        };
+        authStore.setUser(user);
         authStore.setSession({
-          user: data.session.user as unknown as User,
+          user,
           access_token: data.session.access_token,
           refresh_token: data.session.refresh_token,
           expires_at: data.session.expires_at,
@@ -108,7 +178,7 @@ export const useAuth = () => {
 
       return { success: true, session: data.session };
     } catch (error) {
-      console.error('Restore session error:', error);
+      console.error("Restore session error:", error);
       return { success: false };
     }
   };
@@ -116,7 +186,7 @@ export const useAuth = () => {
   // ============ GET CURRENT USER ============
   const getCurrentUser = async () => {
     try {
-      const { data, error } = await (supabase as any).auth.getUser();
+      const { data, error } = await supabase.auth.getUser();
 
       if (error) {
         throw new Error(error.message);
@@ -124,7 +194,7 @@ export const useAuth = () => {
 
       return data.user;
     } catch (error) {
-      console.error('Get current user error:', error);
+      console.error("Get current user error:", error);
       return null;
     }
   };
