@@ -59,6 +59,56 @@ export interface UpdateProjectInput {
   scheduled_at?: string | null;
 }
 
+// ============ TEMPLATES ============
+export interface Template {
+  id: string;
+  user_id: string;
+  name: string;
+  description?: string;
+  content: string;
+  category:
+    | "short-form"
+    | "long-form"
+    | "promotional"
+    | "educational"
+    | "entertainment"
+    | "other";
+  thumbnail_url?: string;
+  is_public: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateTemplateInput {
+  name: string;
+  description?: string;
+  content: string;
+  category:
+    | "short-form"
+    | "long-form"
+    | "promotional"
+    | "educational"
+    | "entertainment"
+    | "other";
+  thumbnail_url?: string;
+  is_public?: boolean;
+}
+
+export interface UpdateTemplateInput {
+  name?: string;
+  description?: string;
+  content?: string;
+  category?:
+    | "short-form"
+    | "long-form"
+    | "promotional"
+    | "educational"
+    | "entertainment"
+    | "other";
+  thumbnail_url?: string;
+  is_public?: boolean;
+}
+
 // ============ API RESPONSES ============
 export interface ApiResponse<T> {
   data?: T;

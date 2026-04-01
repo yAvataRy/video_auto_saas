@@ -30,6 +30,15 @@
           </NuxtLink>
 
           <NuxtLink
+            to="/templates"
+            class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
+            active-class="bg-blue-50 text-blue-600 font-semibold"
+          >
+            <Icon name="mdi:palette" class="w-5 h-5 mr-3" />
+            Templates
+          </NuxtLink>
+
+          <NuxtLink
             to="/settings"
             class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
             active-class="bg-blue-50 text-blue-600 font-semibold"
@@ -68,9 +77,12 @@
               :alt="userName"
               class="w-8 h-8 rounded-full"
             />
-            <div v-else class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+            <div
+              v-else
+              class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center"
+            >
               <span class="text-white text-sm font-semibold">
-                {{ userName?.charAt(0).toUpperCase() || 'U' }}
+                {{ userName?.charAt(0).toUpperCase() || "U" }}
               </span>
             </div>
           </div>
@@ -94,15 +106,16 @@ const route = useRoute();
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
-    '/dashboard': 'Dashboard',
-    '/projects': 'Projects',
-    '/settings': 'Settings',
+    "/dashboard": "Dashboard",
+    "/projects": "Projects",
+    "/templates": "Templates",
+    "/settings": "Settings",
   };
-  return titles[route.path] || 'Dashboard';
+  return titles[route.path] || "Dashboard";
 });
 
-const userName = computed(() => authStore.user?.name || 'User');
-const userEmail = computed(() => authStore.user?.email || '');
+const userName = computed(() => authStore.user?.name || "User");
+const userEmail = computed(() => authStore.user?.email || "");
 const userAvatar = computed(() => authStore.user?.avatar_url || null);
 
 const handleLogout = async () => {
@@ -110,7 +123,7 @@ const handleLogout = async () => {
     const { logout } = useAuth();
     await logout();
   } catch (error) {
-    console.error('Logout failed:', error);
+    console.error("Logout failed:", error);
   }
 };
 </script>

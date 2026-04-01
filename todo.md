@@ -84,12 +84,12 @@
 - [ ] Integração TikTok API
 - [ ] Integração YouTube Shorts API
 - [x] Agendamento de postagens
-- [ ] Sistema de templates
+- [x] Sistema de templates
 - [ ] Editor de vídeos
 - [ ] Analytics dashboard
 - [ ] Gerenciamento de equipes
 - [ ] Sistema de pagamento
-- [ ] Notificações em tempo real
+- [x] Notificações em tempo real
 
 ## Testes
 

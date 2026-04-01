@@ -30,12 +30,24 @@
 import { onMounted } from "vue";
 import { useAuth } from "~/composables/useAuth";
 import { useAppToast } from "~/composables/useAppToast";
+import { useRealtime } from "~/composables/useRealtime";
 
 const auth = useAuth();
 const { toasts } = useAppToast();
+const { subscribeToAll } = useRealtime();
+const nuxtApp = useNuxtApp();
+const supabase = nuxtApp.$supabase;
 
 onMounted(async () => {
   await auth.restoreSession();
+
+  // Initialize realtime subscriptions if user is authenticated
+  if (supabase) {
+    const { data: session } = await supabase.auth.getSession();
+    if (session?.user?.id) {
+      subscribeToAll(session.user.id);
+    }
+  }
 });
 </script>
 
