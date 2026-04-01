@@ -104,9 +104,9 @@
 - [x] API documentation (API.md)
 - [x] Deployment guide (DEPLOYMENT.md)
 
-## Deploy
+## Infra & DevOps
 
-- [ ] Configurar CI/CD
+- [x] Configurar CI/CD (GitHub Actions)
 - [ ] Deploy em produção
 - [ ] Configurar domínio customizado
 - [ ] SSL/TLS
