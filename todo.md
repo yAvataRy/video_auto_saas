@@ -83,9 +83,9 @@
 - [ ] Geração de vídeos com IA
 - [ ] Integração TikTok API
 - [ ] Integração YouTube Shorts API
+- [x] Agendamento de postagens
 - [ ] Sistema de templates
 - [ ] Editor de vídeos
-- [ ] Agendamento de postagens
 - [ ] Analytics dashboard
 - [ ] Gerenciamento de equipes
 - [ ] Sistema de pagamento

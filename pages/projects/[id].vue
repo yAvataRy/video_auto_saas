@@ -67,6 +67,12 @@
                 {{ formatDate(project.updated_at) }}
               </p>
             </div>
+            <div v-if="project.scheduled_at">
+              <p class="text-xs text-gray-500">Scheduled for</p>
+              <p class="text-sm text-blue-600 font-semibold">
+                {{ formatDate(project.scheduled_at) }}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -173,6 +179,20 @@
               </select>
             </div>
 
+            <div>
+              <label
+                for="edit-scheduled"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Schedule Post (Optional)</label
+              >
+              <UiDateTimePicker
+                id="edit-scheduled"
+                v-model="projectForm.scheduled_at"
+                name="scheduled_at"
+                hint="Leave empty to publish immediately"
+              />
+            </div>
+
             <div class="flex space-x-3 pt-4">
               <button
                 type="button"
@@ -238,6 +258,7 @@ const projectForm = reactive<UpdateProjectInput>({
   niche: "",
   description: "",
   status: "active",
+  scheduled_at: null,
 });
 
 const formatDate = (date: string) => {

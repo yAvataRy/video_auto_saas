@@ -24,6 +24,19 @@ export const projectSchema = z.object({
       message: "Status deve ser ativo, rascunho ou arquivado",
     }),
   }),
+
+  scheduled_at: z
+    .union([z.string().datetime(), z.null(), z.undefined()])
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const scheduled = new Date(val);
+        const now = new Date();
+        return scheduled > now;
+      },
+      { message: "Data agendada deve ser no futuro" }
+    ),
 });
 
 // Schema de validação para autenticação

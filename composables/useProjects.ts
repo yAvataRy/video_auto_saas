@@ -228,6 +228,49 @@ export const useProjects = () => {
     }
   };
 
+  // ============ SCHEDULING ============
+  const fetchScheduledProjects = async () => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const userId = await getUserId();
+      const now = new Date().toISOString();
+
+      const { data, error: supabaseError } = await supabase
+        .from<Project>("projects")
+        .select("*")
+        .eq("user_id", userId)
+        .not("scheduled_at", "is", null)
+        .gte("scheduled_at", now)
+        .order("scheduled_at", { ascending: true });
+
+      if (supabaseError) {
+        return handleError(supabaseError, "Erro ao buscar projetos agendados");
+      }
+
+      return {
+        success: true,
+        data: data || [],
+      };
+    } catch (err) {
+      return handleError(err, "Erro ao buscar projetos agendados");
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const getUpcomingSchedules = (limit: number = 5): Project[] => {
+    return projectStore.projects
+      .filter((p) => p.scheduled_at && new Date(p.scheduled_at) > new Date())
+      .sort((a, b) => {
+        const dateA = new Date(a.scheduled_at || 0).getTime();
+        const dateB = new Date(b.scheduled_at || 0).getTime();
+        return dateA - dateB;
+      })
+      .slice(0, limit);
+  };
+
   return {
     projects: computed(() => projectStore.projects),
     loading: readonly(loading),
@@ -237,5 +280,7 @@ export const useProjects = () => {
     createProject,
     updateProject,
     deleteProject,
+    fetchScheduledProjects,
+    getUpcomingSchedules,
   };
 };

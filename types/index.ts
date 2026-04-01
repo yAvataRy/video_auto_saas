@@ -39,6 +39,7 @@ export interface Project {
   niche: string;
   description?: string;
   status: 'active' | 'archived' | 'draft';
+  scheduled_at?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -47,6 +48,7 @@ export interface CreateProjectInput {
   name: string;
   niche: string;
   description?: string;
+  scheduled_at?: string | null;
 }
 
 export interface UpdateProjectInput {
@@ -54,6 +56,7 @@ export interface UpdateProjectInput {
   niche?: string;
   description?: string;
   status?: 'active' | 'archived' | 'draft';
+  scheduled_at?: string | null;
 }
 
 // ============ API RESPONSES ============

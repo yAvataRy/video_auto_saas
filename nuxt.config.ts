@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   },
 
   // Módulos
-  modules: ["@pinia/nuxt", "@nuxt/ui", "@vercel/analytics"],
+  modules: ["@pinia/nuxt", "@nuxt/ui"],
 
   // CSS e Tailwind
   css: ["~/assets/main.css"],

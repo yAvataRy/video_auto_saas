@@ -96,6 +96,37 @@
       </div>
     </div>
 
+    <!-- Upcoming Scheduled -->
+    <div v-if="upcomingSchedules.length > 0" class="bg-white rounded-lg shadow p-6 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <Icon name="mdi:calendar-clock" class="w-5 h-5 inline mr-2" />
+          Upcoming Scheduled
+        </h3>
+      </div>
+
+      <div class="space-y-3">
+        <div
+          v-for="project in upcomingSchedules"
+          :key="project.id"
+          class="flex items-center justify-between p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500"
+        >
+          <div>
+            <p class="font-medium text-gray-800">{{ project.name }}</p>
+            <p class="text-sm text-gray-600">
+              {{ formatScheduledDate(project.scheduled_at) }}
+            </p>
+          </div>
+          <NuxtLink
+            :to="`/projects/${project.id}`"
+            class="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+          >
+            View →
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+
     <!-- Recent Projects -->
     <div class="bg-white rounded-lg shadow p-6">
       <div class="flex items-center justify-between mb-6">
@@ -194,11 +225,13 @@
 </template>
 
 <script setup lang="ts">
+import { formatScheduledDate } from '~/ utils/scheduling';
+
 definePageMeta({
   middleware: "auth",
 });
 
-const { projects, loading, fetchProjects } = useProjects();
+const { projects, loading, fetchProjects, getUpcomingSchedules } = useProjects();
 
 const projectCount = computed(() => projects.value.length);
 const activeProjectCount = computed(
@@ -211,6 +244,8 @@ const statusCounts = computed(() => ({
   draft: projects.value.filter((p) => p.status === "draft").length,
   archived: projects.value.filter((p) => p.status === "archived").length,
 }));
+
+const upcomingSchedules = computed(() => getUpcomingSchedules(5));
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString("pt-BR", {
