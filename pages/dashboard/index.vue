@@ -228,7 +228,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatScheduledDate } from "~/ utils/scheduling";
+import { formatScheduledDate } from "~/utils/scheduling";
 
 definePageMeta({
   middleware: "auth",

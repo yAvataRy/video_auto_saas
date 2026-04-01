@@ -16,7 +16,6 @@ interface Emits {
   (e: "update:modelValue", value: string | null): void;
 }
 
-defineProps<Props>();
 defineEmits<Emits>();
 
 const props = withDefaults(defineProps<Props>(), {
