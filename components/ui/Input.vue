@@ -6,14 +6,17 @@
       class="block text-sm font-medium text-gray-700"
     >
       {{ label }}
-      <span v-if="required" class="text-red-500">*</span>
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
     </label>
 
     <div class="relative">
       <input
         :id="inputId"
-        :name="inputId"
         ref="inputRef"
+        :name="inputId"
         :type="type"
         :value="modelValue"
         :placeholder="placeholder"
@@ -24,21 +27,30 @@
         @input="$emit('update:modelValue', $event.target.value)"
         @blur="$emit('blur', $event)"
         @focus="$emit('focus', $event)"
-      />
+      >
 
       <div
         v-if="icon"
         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
       >
-        <component :is="icon" class="h-5 w-5 text-gray-400" />
+        <component
+          :is="icon"
+          class="h-5 w-5 text-gray-400"
+        />
       </div>
     </div>
 
-    <p v-if="error" class="text-sm text-red-600">
+    <p
+      v-if="error"
+      class="text-sm text-red-600"
+    >
       {{ error }}
     </p>
 
-    <p v-if="hint && !error" class="text-sm text-gray-500">
+    <p
+      v-if="hint && !error"
+      class="text-sm text-gray-500"
+    >
       {{ hint }}
     </p>
   </div>

@@ -62,7 +62,10 @@ const handleChange = (e: Event) => {
       class="block text-sm font-medium text-gray-700"
     >
       {{ label }}
-      <span v-if="required" class="text-red-500">*</span>
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
     </label>
     <input
       :id="id"
@@ -74,9 +77,17 @@ const handleChange = (e: Event) => {
       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
       :class="{ 'border-red-500': error }"
       @change="handleChange"
-    />
-    <p v-if="hint" class="text-xs text-gray-500">{{ hint }}</p>
-    <p v-if="error && errorMessage" class="text-xs text-red-500">
+    >
+    <p
+      v-if="hint"
+      class="text-xs text-gray-500"
+    >
+      {{ hint }}
+    </p>
+    <p
+      v-if="error && errorMessage"
+      class="text-xs text-red-500"
+    >
       {{ errorMessage }}
     </p>
   </div>

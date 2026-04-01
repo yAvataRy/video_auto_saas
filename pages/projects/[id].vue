@@ -1,16 +1,24 @@
 <template>
   <div>
     <!-- Loading State -->
-    <div v-if="loading" class="text-center py-12">
+    <div
+      v-if="loading"
+      class="text-center py-12"
+    >
       <Icon
         name="mdi:loading"
         class="w-8 h-8 animate-spin mx-auto text-gray-400 mb-3"
       />
-      <p class="text-gray-500">Loading project...</p>
+      <p class="text-gray-500">
+        Loading project...
+      </p>
     </div>
 
     <!-- Project Details -->
-    <div v-else-if="project" class="space-y-6">
+    <div
+      v-else-if="project"
+      class="space-y-6"
+    >
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
@@ -20,8 +28,12 @@
           >
             ← Back to Projects
           </NuxtLink>
-          <h1 class="text-3xl font-bold text-gray-800">{{ project.name }}</h1>
-          <p class="text-gray-500 mt-1">{{ project.niche }}</p>
+          <h1 class="text-3xl font-bold text-gray-800">
+            {{ project.name }}
+          </h1>
+          <p class="text-gray-500 mt-1">
+            {{ project.niche }}
+          </p>
         </div>
         <span
           :class="{
@@ -37,11 +49,21 @@
 
       <!-- Description -->
       <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Description</h2>
-        <p v-if="project.description" class="text-gray-600">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Description
+        </h2>
+        <p
+          v-if="project.description"
+          class="text-gray-600"
+        >
           {{ project.description }}
         </p>
-        <p v-else class="text-gray-500 italic">No description provided</p>
+        <p
+          v-else
+          class="text-gray-500 italic"
+        >
+          No description provided
+        </p>
       </div>
 
       <!-- Project Info -->
@@ -52,23 +74,33 @@
           </h3>
           <div class="space-y-3">
             <div>
-              <p class="text-xs text-gray-500">Project ID</p>
-              <p class="text-sm font-mono text-gray-800">{{ project.id }}</p>
+              <p class="text-xs text-gray-500">
+                Project ID
+              </p>
+              <p class="text-sm font-mono text-gray-800">
+                {{ project.id }}
+              </p>
             </div>
             <div>
-              <p class="text-xs text-gray-500">Created</p>
+              <p class="text-xs text-gray-500">
+                Created
+              </p>
               <p class="text-sm text-gray-800">
                 {{ formatDate(project.created_at) }}
               </p>
             </div>
             <div>
-              <p class="text-xs text-gray-500">Last Updated</p>
+              <p class="text-xs text-gray-500">
+                Last Updated
+              </p>
               <p class="text-sm text-gray-800">
                 {{ formatDate(project.updated_at) }}
               </p>
             </div>
             <div v-if="project.scheduled_at">
-              <p class="text-xs text-gray-500">Scheduled for</p>
+              <p class="text-xs text-gray-500">
+                Scheduled for
+              </p>
               <p class="text-sm text-blue-600 font-semibold">
                 {{ formatDate(project.scheduled_at) }}
               </p>
@@ -77,15 +109,25 @@
         </div>
 
         <div class="bg-white rounded-lg shadow p-6">
-          <h3 class="text-sm font-semibold text-gray-700 mb-4">Quick Stats</h3>
+          <h3 class="text-sm font-semibold text-gray-700 mb-4">
+            Quick Stats
+          </h3>
           <div class="space-y-3">
             <div>
-              <p class="text-xs text-gray-500">Videos Generated</p>
-              <p class="text-2xl font-bold text-gray-800">0</p>
+              <p class="text-xs text-gray-500">
+                Videos Generated
+              </p>
+              <p class="text-2xl font-bold text-gray-800">
+                0
+              </p>
             </div>
             <div>
-              <p class="text-xs text-gray-500">Total Views</p>
-              <p class="text-2xl font-bold text-gray-800">0</p>
+              <p class="text-xs text-gray-500">
+                Total Views
+              </p>
+              <p class="text-2xl font-bold text-gray-800">
+                0
+              </p>
             </div>
           </div>
         </div>
@@ -94,17 +136,23 @@
       <!-- Actions -->
       <div class="flex space-x-3">
         <button
-          @click="handleEdit"
           class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center"
+          @click="handleEdit"
         >
-          <Icon name="mdi:pencil" class="w-5 h-5 mr-2" />
+          <Icon
+            name="mdi:pencil"
+            class="w-5 h-5 mr-2"
+          />
           Edit Project
         </button>
         <button
-          @click="handleDelete"
           class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold flex items-center"
+          @click="handleDelete"
         >
-          <Icon name="mdi:trash-can" class="w-5 h-5 mr-2" />
+          <Icon
+            name="mdi:trash-can"
+            class="w-5 h-5 mr-2"
+          />
           Delete Project
         </button>
       </div>
@@ -115,67 +163,74 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
       >
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <h2 class="text-2xl font-bold text-gray-800 mb-4">Edit Project</h2>
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            Edit Project
+          </h2>
 
-          <form @submit.prevent="submitEdit" class="space-y-4">
+          <form
+            class="space-y-4"
+            @submit.prevent="submitEdit"
+          >
             <div>
               <label
                 for="edit-name"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Project Name *</label
-              >
+              >Project Name *</label>
               <input
                 id="edit-name"
                 v-model="projectForm.name"
                 type="text"
                 required
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              >
             </div>
 
             <div>
               <label
                 for="edit-niche"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Niche *</label
-              >
+              >Niche *</label>
               <input
                 id="edit-niche"
                 v-model="projectForm.niche"
                 type="text"
                 required
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              >
             </div>
 
             <div>
               <label
                 for="edit-description"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Description</label
-              >
+              >Description</label>
               <textarea
                 id="edit-description"
                 v-model="projectForm.description"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 rows="3"
-              ></textarea>
+              />
             </div>
 
             <div>
               <label
                 for="edit-status"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Status</label
-              >
+              >Status</label>
               <select
                 id="edit-status"
                 v-model="projectForm.status"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="active">Active</option>
-                <option value="draft">Draft</option>
-                <option value="archived">Archived</option>
+                <option value="active">
+                  Active
+                </option>
+                <option value="draft">
+                  Draft
+                </option>
+                <option value="archived">
+                  Archived
+                </option>
               </select>
             </div>
 
@@ -183,8 +238,7 @@
               <label
                 for="edit-scheduled"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Schedule Post (Optional)</label
-              >
+              >Schedule Post (Optional)</label>
               <UiDateTimePicker
                 id="edit-scheduled"
                 v-model="projectForm.scheduled_at"
@@ -196,8 +250,8 @@
             <div class="flex space-x-3 pt-4">
               <button
                 type="button"
-                @click="showEditModal = false"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+                @click="showEditModal = false"
               >
                 Cancel
               </button>
@@ -207,8 +261,14 @@
                 class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span v-if="!editLoading">Save</span>
-                <span v-else class="flex items-center justify-center">
-                  <Icon name="mdi:loading" class="w-4 h-4 mr-2 animate-spin" />
+                <span
+                  v-else
+                  class="flex items-center justify-center"
+                >
+                  <Icon
+                    name="mdi:loading"
+                    class="w-4 h-4 mr-2 animate-spin"
+                  />
                   Saving...
                 </span>
               </button>
@@ -219,7 +279,10 @@
     </div>
 
     <!-- Not Found -->
-    <div v-else class="text-center py-12 bg-white rounded-lg">
+    <div
+      v-else
+      class="text-center py-12 bg-white rounded-lg"
+    >
       <Icon
         name="mdi:folder-open"
         class="w-16 h-16 mx-auto text-gray-300 mb-4"

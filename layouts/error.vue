@@ -3,8 +3,12 @@
     class="min-h-screen flex items-center justify-center bg-red-50 text-red-900 px-4"
   >
     <div class="max-w-lg text-center bg-white p-8 rounded-xl shadow-lg">
-      <h1 class="text-5xl font-black text-red-600">Oops!</h1>
-      <p class="mt-4 text-xl font-semibold">Algo deu errado</p>
+      <h1 class="text-5xl font-black text-red-600">
+        Oops!
+      </h1>
+      <p class="mt-4 text-xl font-semibold">
+        Algo deu errado
+      </p>
       <p class="mt-2 text-sm text-slate-600 break-words">
         {{ statusCode }} - {{ message || statusMessage || "Erro inesperado" }}
       </p>

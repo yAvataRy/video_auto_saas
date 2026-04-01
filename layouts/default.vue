@@ -5,8 +5,12 @@
       <div class="flex flex-col h-full">
         <!-- Logo -->
         <div class="px-6 py-4 border-b border-gray-200">
-          <h1 class="text-2xl font-bold text-blue-600">VideoAI</h1>
-          <p class="text-xs text-gray-500 mt-1">Automation Platform</p>
+          <h1 class="text-2xl font-bold text-blue-600">
+            VideoAI
+          </h1>
+          <p class="text-xs text-gray-500 mt-1">
+            Automation Platform
+          </p>
         </div>
 
         <!-- Navigation -->
@@ -16,7 +20,10 @@
             class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
             active-class="bg-blue-50 text-blue-600 font-semibold"
           >
-            <Icon name="mdi:home" class="w-5 h-5 mr-3" />
+            <Icon
+              name="mdi:home"
+              class="w-5 h-5 mr-3"
+            />
             Dashboard
           </NuxtLink>
 
@@ -25,7 +32,10 @@
             class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
             active-class="bg-blue-50 text-blue-600 font-semibold"
           >
-            <Icon name="mdi:folder-multiple" class="w-5 h-5 mr-3" />
+            <Icon
+              name="mdi:folder-multiple"
+              class="w-5 h-5 mr-3"
+            />
             Projects
           </NuxtLink>
 
@@ -34,7 +44,10 @@
             class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
             active-class="bg-blue-50 text-blue-600 font-semibold"
           >
-            <Icon name="mdi:palette" class="w-5 h-5 mr-3" />
+            <Icon
+              name="mdi:palette"
+              class="w-5 h-5 mr-3"
+            />
             Templates
           </NuxtLink>
 
@@ -43,7 +56,10 @@
             class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors"
             active-class="bg-blue-50 text-blue-600 font-semibold"
           >
-            <Icon name="mdi:cog" class="w-5 h-5 mr-3" />
+            <Icon
+              name="mdi:cog"
+              class="w-5 h-5 mr-3"
+            />
             Settings
           </NuxtLink>
         </nav>
@@ -51,10 +67,13 @@
         <!-- User Profile -->
         <div class="px-4 py-4 border-t border-gray-200">
           <button
-            @click="handleLogout"
             class="w-full flex items-center px-4 py-2 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+            @click="handleLogout"
           >
-            <Icon name="mdi:logout" class="w-5 h-5 mr-3" />
+            <Icon
+              name="mdi:logout"
+              class="w-5 h-5 mr-3"
+            />
             Logout
           </button>
         </div>
@@ -76,7 +95,7 @@
               :src="userAvatar"
               :alt="userName"
               class="w-8 h-8 rounded-full"
-            />
+            >
             <div
               v-else
               class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center"

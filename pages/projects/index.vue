@@ -2,12 +2,17 @@
   <div>
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold text-gray-800">Projects</h1>
+      <h1 class="text-3xl font-bold text-gray-800">
+        Projects
+      </h1>
       <button
-        @click="showCreateModal = true"
         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center"
+        @click="showCreateModal = true"
       >
-        <Icon name="mdi:plus" class="w-5 h-5 mr-2" />
+        <Icon
+          name="mdi:plus"
+          class="w-5 h-5 mr-2"
+        />
         New Project
       </button>
     </div>
@@ -22,7 +27,7 @@
           type="text"
           placeholder="Search by name or niche..."
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
+        >
       </div>
 
       <div class="w-full md:w-64">
@@ -30,10 +35,18 @@
           v-model="statusFilter"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
-          <option value="all">All statuses</option>
-          <option value="active">Active</option>
-          <option value="draft">Draft</option>
-          <option value="archived">Archived</option>
+          <option value="all">
+            All statuses
+          </option>
+          <option value="active">
+            Active
+          </option>
+          <option value="draft">
+            Draft
+          </option>
+          <option value="archived">
+            Archived
+          </option>
         </select>
       </div>
     </div>
@@ -44,12 +57,17 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="text-center py-12">
+    <div
+      v-if="loading"
+      class="text-center py-12"
+    >
       <Icon
         name="mdi:loading"
         class="w-8 h-8 animate-spin mx-auto text-gray-400 mb-3"
       />
-      <p class="text-gray-500">Loading projects...</p>
+      <p class="text-gray-500">
+        Loading projects...
+      </p>
     </div>
 
     <!-- Empty State -->
@@ -68,15 +86,18 @@
         Try another search or create a new project
       </p>
       <button
-        @click="showCreateModal = true"
         class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+        @click="showCreateModal = true"
       >
         Create Project
       </button>
     </div>
 
     <!-- Projects Grid -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      v-else
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       <div
         v-for="project in filteredProjects"
         :key="project.id"
@@ -87,7 +108,9 @@
             <h3 class="text-lg font-semibold text-gray-800">
               {{ project.name }}
             </h3>
-            <p class="text-sm text-gray-500">{{ project.niche }}</p>
+            <p class="text-sm text-gray-500">
+              {{ project.niche }}
+            </p>
           </div>
           <span
             :class="{
@@ -101,7 +124,10 @@
           </span>
         </div>
 
-        <p v-if="project.description" class="text-gray-600 text-sm mb-4">
+        <p
+          v-if="project.description"
+          class="text-gray-600 text-sm mb-4"
+        >
           {{ project.description }}
         </p>
 
@@ -119,8 +145,8 @@
               View
             </NuxtLink>
             <button
-              @click="handleDelete(project.id)"
               class="text-red-600 hover:text-red-700 font-semibold text-sm"
+              @click="handleDelete(project.id)"
             >
               Delete
             </button>
@@ -139,7 +165,10 @@
           Create New Project
         </h2>
 
-        <form @submit.prevent="handleCreateProject" class="space-y-4">
+        <form
+          class="space-y-4"
+          @submit.prevent="handleCreateProject"
+        >
           <!-- Name -->
           <div>
             <label
@@ -155,7 +184,7 @@
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="My Awesome Project"
-            />
+            >
           </div>
 
           <!-- Niche -->
@@ -173,7 +202,7 @@
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="e.g., Finance, Psychology, Technology"
-            />
+            >
           </div>
 
           <!-- Description -->
@@ -190,15 +219,15 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Optional description"
               rows="3"
-            ></textarea>
+            />
           </div>
 
           <!-- Buttons -->
           <div class="flex space-x-3 pt-4">
             <button
               type="button"
-              @click="showCreateModal = false"
               class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+              @click="showCreateModal = false"
             >
               Cancel
             </button>
@@ -208,8 +237,14 @@
               class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="!createLoading">Create</span>
-              <span v-else class="flex items-center justify-center">
-                <Icon name="mdi:loading" class="w-4 h-4 mr-2 animate-spin" />
+              <span
+                v-else
+                class="flex items-center justify-center"
+              >
+                <Icon
+                  name="mdi:loading"
+                  class="w-4 h-4 mr-2 animate-spin"
+                />
                 Creating...
               </span>
             </button>

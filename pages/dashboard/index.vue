@@ -5,7 +5,9 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-500 text-sm">Total Projects</p>
+            <p class="text-gray-500 text-sm">
+              Total Projects
+            </p>
             <p class="text-3xl font-bold text-gray-800 mt-2">
               {{ projectCount }}
             </p>
@@ -20,7 +22,9 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-500 text-sm">Active Projects</p>
+            <p class="text-gray-500 text-sm">
+              Active Projects
+            </p>
             <p class="text-3xl font-bold text-gray-800 mt-2">
               {{ activeProjectCount }}
             </p>
@@ -35,20 +39,34 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-500 text-sm">Videos Generated</p>
-            <p class="text-3xl font-bold text-gray-800 mt-2">0</p>
+            <p class="text-gray-500 text-sm">
+              Videos Generated
+            </p>
+            <p class="text-3xl font-bold text-gray-800 mt-2">
+              0
+            </p>
           </div>
-          <Icon name="mdi:video" class="w-12 h-12 text-purple-500 opacity-20" />
+          <Icon
+            name="mdi:video"
+            class="w-12 h-12 text-purple-500 opacity-20"
+          />
         </div>
       </div>
 
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-500 text-sm">Total Views</p>
-            <p class="text-3xl font-bold text-gray-800 mt-2">0</p>
+            <p class="text-gray-500 text-sm">
+              Total Views
+            </p>
+            <p class="text-3xl font-bold text-gray-800 mt-2">
+              0
+            </p>
           </div>
-          <Icon name="mdi:eye" class="w-12 h-12 text-orange-500 opacity-20" />
+          <Icon
+            name="mdi:eye"
+            class="w-12 h-12 text-orange-500 opacity-20"
+          />
         </div>
       </div>
     </div>
@@ -59,22 +77,28 @@
         Project Status Analytics
       </h3>
 
-      <div v-if="projects.length === 0" class="text-gray-500 text-sm">
+      <div
+        v-if="projects.length === 0"
+        class="text-gray-500 text-sm"
+      >
         No projects to display analytics. Create a project first.
       </div>
 
-      <div v-else class="space-y-4">
-        <div v-for="(count, status) in statusCounts" :key="status">
+      <div
+        v-else
+        class="space-y-4"
+      >
+        <div
+          v-for="(count, status) in statusCounts"
+          :key="status"
+        >
           <div class="flex items-center justify-between mb-1">
             <span
               class="uppercase text-xs font-semibold tracking-wide text-gray-600"
-              >{{ status }}</span
-            >
-            <span class="text-xs text-gray-500"
-              >{{ count }} ({{
-                ((count / totalProjects) * 100).toFixed(0)
-              }}%)</span
-            >
+            >{{ status }}</span>
+            <span class="text-xs text-gray-500">{{ count }} ({{
+              ((count / totalProjects) * 100).toFixed(0)
+            }}%)</span>
           </div>
           <div class="h-2 bg-gray-200 rounded-full">
             <div
@@ -90,7 +114,7 @@
                     ? (count / totalProjects) * 100 + '%'
                     : '0%',
               }"
-            ></div>
+            />
           </div>
         </div>
       </div>
@@ -103,7 +127,10 @@
     >
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-semibold text-gray-800">
-          <Icon name="mdi:calendar-clock" class="w-5 h-5 inline mr-2" />
+          <Icon
+            name="mdi:calendar-clock"
+            class="w-5 h-5 inline mr-2"
+          />
           Upcoming Scheduled
         </h3>
       </div>
@@ -115,7 +142,9 @@
           class="flex items-center justify-between p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500"
         >
           <div>
-            <p class="font-medium text-gray-800">{{ project.name }}</p>
+            <p class="font-medium text-gray-800">
+              {{ project.name }}
+            </p>
             <p class="text-sm text-gray-600">
               {{ formatScheduledDate(project.scheduled_at) }}
             </p>
@@ -133,7 +162,9 @@
     <!-- Recent Projects -->
     <div class="bg-white rounded-lg shadow p-6">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-semibold text-gray-800">Recent Projects</h3>
+        <h3 class="text-lg font-semibold text-gray-800">
+          Recent Projects
+        </h3>
         <NuxtLink
           to="/projects"
           class="text-blue-600 hover:text-blue-700 text-sm font-semibold"
@@ -142,19 +173,27 @@
         </NuxtLink>
       </div>
 
-      <div v-if="loading" class="text-center py-8">
+      <div
+        v-if="loading"
+        class="text-center py-8"
+      >
         <Icon
           name="mdi:loading"
           class="w-8 h-8 animate-spin mx-auto text-gray-400"
         />
       </div>
 
-      <div v-else-if="projects.length === 0" class="text-center py-8">
+      <div
+        v-else-if="projects.length === 0"
+        class="text-center py-8"
+      >
         <Icon
           name="mdi:folder-open"
           class="w-12 h-12 mx-auto text-gray-300 mb-3"
         />
-        <p class="text-gray-500">No projects yet</p>
+        <p class="text-gray-500">
+          No projects yet
+        </p>
         <NuxtLink
           to="/projects"
           class="text-blue-600 hover:text-blue-700 text-sm font-semibold mt-2 inline-block"
@@ -163,7 +202,10 @@
         </NuxtLink>
       </div>
 
-      <div v-else class="overflow-x-auto">
+      <div
+        v-else
+        class="overflow-x-auto"
+      >
         <table class="w-full">
           <thead class="border-b border-gray-200">
             <tr>
@@ -203,7 +245,9 @@
                   {{ project.name }}
                 </NuxtLink>
               </td>
-              <td class="py-3 px-4 text-gray-600">{{ project.niche }}</td>
+              <td class="py-3 px-4 text-gray-600">
+                {{ project.niche }}
+              </td>
               <td class="py-3 px-4">
                 <span
                   :class="{

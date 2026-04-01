@@ -4,14 +4,16 @@
       <!-- Header -->
       <div class="mb-8 flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Meus Templates</h1>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Meus Templates
+          </h1>
           <p class="mt-2 text-gray-600">
             Crie e reutilize templates para seus projetos
           </p>
         </div>
         <button
-          @click="isCreateModalOpen = true"
           class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition"
+          @click="isCreateModalOpen = true"
         >
           Novo Template
         </button>
@@ -21,24 +23,24 @@
       <div class="mb-6 border-b border-gray-200">
         <div class="flex gap-4">
           <button
-            @click="activeTab = 'my'"
             :class="[
               'px-4 py-2 font-semibold border-b-2 transition',
               activeTab === 'my'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900',
             ]"
+            @click="activeTab = 'my'"
           >
             Meus Templates ({{ userTemplates.length }})
           </button>
           <button
-            @click="activeTab = 'public'"
             :class="[
               'px-4 py-2 font-semibold border-b-2 transition',
               activeTab === 'public'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900',
             ]"
+            @click="activeTab = 'public'"
           >
             Templates Públicos ({{ publicTemplates.length }})
           </button>
@@ -48,33 +50,36 @@
       <!-- Filter by Category -->
       <div class="mb-6 flex gap-2">
         <button
-          @click="selectedCategory = null"
           :class="[
             'px-4 py-2 rounded-full font-semibold transition',
             selectedCategory === null
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
           ]"
+          @click="selectedCategory = null"
         >
           Todos
         </button>
         <button
           v-for="cat in categories"
           :key="cat"
-          @click="selectedCategory = cat"
           :class="[
             'px-4 py-2 rounded-full font-semibold transition',
             selectedCategory === cat
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
           ]"
+          @click="selectedCategory = cat"
         >
           {{ formatCategory(cat) }}
         </button>
       </div>
 
       <!-- Templates Grid -->
-      <div v-if="loading" class="space-y-4">
+      <div
+        v-if="loading"
+        class="space-y-4"
+      >
         <div
           v-for="i in 3"
           :key="i"
@@ -86,10 +91,15 @@
         v-else-if="filteredTemplates.length === 0"
         class="rounded-lg bg-white p-8 text-center"
       >
-        <p class="text-gray-600">Nenhum template disponível</p>
+        <p class="text-gray-600">
+          Nenhum template disponível
+        </p>
       </div>
 
-      <div v-else class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        v-else
+        class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
         <div
           v-for="template in filteredTemplates"
           :key="template.id"
@@ -104,7 +114,7 @@
               :src="template.thumbnail_url"
               :alt="template.name"
               class="h-full w-full object-cover"
-            />
+            >
           </div>
           <div
             v-else
@@ -113,7 +123,9 @@
 
           <!-- Content -->
           <div class="p-4">
-            <h3 class="font-semibold text-gray-900">{{ template.name }}</h3>
+            <h3 class="font-semibold text-gray-900">
+              {{ template.name }}
+            </h3>
             <p class="mt-1 line-clamp-2 text-sm text-gray-600">
               {{ template.description }}
             </p>
@@ -133,14 +145,14 @@
             <!-- Actions -->
             <div class="mt-4 flex gap-2">
               <button
-                @click="editTemplate(template)"
                 class="flex-1 rounded bg-blue-100 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-200 transition"
+                @click="editTemplate(template)"
               >
                 Editar
               </button>
               <button
-                @click="deleteTemplate(template.id)"
                 class="flex-1 rounded bg-red-100 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-200 transition"
+                @click="deleteTemplate(template.id)"
               >
                 Deletar
               </button>
@@ -151,8 +163,14 @@
     </div>
 
     <!-- Create/Edit Modal -->
-    <UiModal v-model="isCreateModalOpen" title="Criar Template">
-      <form @submit.prevent="submitTemplate" class="space-y-4">
+    <UiModal
+      v-model="isCreateModalOpen"
+      title="Criar Template"
+    >
+      <form
+        class="space-y-4"
+        @submit.prevent="submitTemplate"
+      >
         <!-- Name -->
         <UiInput
           v-model="templateForm.name"
@@ -184,13 +202,27 @@
             required
             class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
           >
-            <option value="">Selecione uma categoria</option>
-            <option value="short-form">Short-form (TikTok, Shorts)</option>
-            <option value="long-form">Long-form (YouTube)</option>
-            <option value="promotional">Promocional</option>
-            <option value="educational">Educacional</option>
-            <option value="entertainment">Entretenimento</option>
-            <option value="other">Outro</option>
+            <option value="">
+              Selecione uma categoria
+            </option>
+            <option value="short-form">
+              Short-form (TikTok, Shorts)
+            </option>
+            <option value="long-form">
+              Long-form (YouTube)
+            </option>
+            <option value="promotional">
+              Promocional
+            </option>
+            <option value="educational">
+              Educacional
+            </option>
+            <option value="entertainment">
+              Entretenimento
+            </option>
+            <option value="other">
+              Outro
+            </option>
           </select>
         </div>
 
@@ -201,7 +233,7 @@
           </label>
           <textarea
             v-model="templateForm.content"
-            placeholder='{"scenes": [], "audio": ...}'
+            placeholder="{&quot;scenes&quot;: [], &quot;audio&quot;: ...}"
             required
             class="w-full rounded-lg border border-gray-300 px-4 py-2 font-mono text-xs focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
             rows="6"
@@ -215,8 +247,11 @@
             v-model="templateForm.is_public"
             type="checkbox"
             class="h-4 w-4 rounded border-gray-300 text-blue-600"
-          />
-          <label for="is_public" class="ml-2 text-sm text-gray-700">
+          >
+          <label
+            for="is_public"
+            class="ml-2 text-sm text-gray-700"
+          >
             Compartilhar publicamente
           </label>
         </div>
@@ -225,8 +260,8 @@
         <div class="flex gap-2 pt-4">
           <button
             type="button"
-            @click="isCreateModalOpen = false"
             class="flex-1 rounded-lg border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 transition"
+            @click="isCreateModalOpen = false"
           >
             Cancelar
           </button>

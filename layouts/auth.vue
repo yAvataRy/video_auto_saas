@@ -3,8 +3,12 @@
     <div class="w-full max-w-md">
       <!-- Logo -->
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">VideoAI</h1>
-        <p class="text-blue-100">Video Automation Platform</p>
+        <h1 class="text-4xl font-bold text-white mb-2">
+          VideoAI
+        </h1>
+        <p class="text-blue-100">
+          Video Automation Platform
+        </p>
       </div>
 
       <!-- Card -->

@@ -4,8 +4,15 @@
     :disabled="disabled || loading"
     @click="$emit('click', $event)"
   >
-    <span v-if="loading" class="mr-2">
-      <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+    <span
+      v-if="loading"
+      class="mr-2"
+    >
+      <svg
+        class="animate-spin h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
         <circle
           class="opacity-25"
           cx="12"

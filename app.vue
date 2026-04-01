@@ -7,7 +7,10 @@
 
     <!-- Toast notifications -->
     <div class="fixed right-4 bottom-4 z-50 flex flex-col gap-2">
-      <transition-group name="toast" tag="div">
+      <transition-group
+        name="toast"
+        tag="div"
+      >
         <div
           v-for="toast in toasts"
           :key="toast.id"
