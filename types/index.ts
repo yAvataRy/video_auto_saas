@@ -38,7 +38,7 @@ export interface Project {
   name: string;
   niche: string;
   description?: string;
-  status: 'active' | 'archived' | 'draft';
+  status: "active" | "archived" | "draft";
   scheduled_at?: string | null;
   created_at: string;
   updated_at: string;
@@ -55,7 +55,7 @@ export interface UpdateProjectInput {
   name?: string;
   niche?: string;
   description?: string;
-  status?: 'active' | 'archived' | 'draft';
+  status?: "active" | "archived" | "draft";
   scheduled_at?: string | null;
 }
 
@@ -79,9 +79,9 @@ export class AppError extends Error {
   constructor(
     public code: string,
     message: string,
-    public statusCode: number = 500
+    public statusCode: number = 500,
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = "AppError";
   }
 }

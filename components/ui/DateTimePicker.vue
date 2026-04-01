@@ -13,25 +13,25 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: string | null): void;
+  (e: "update:modelValue", value: string | null): void;
 }
 
 defineProps<Props>();
 defineEmits<Emits>();
 
 const props = withDefaults(defineProps<Props>(), {
-  id: 'datetimepicker',
-  name: 'datetime',
+  id: "datetimepicker",
+  name: "datetime",
 });
 
 // Formata a data para ISO string (YYYY-MM-DDTHH:mm)
 const formatDateForInput = (date: string | undefined | null) => {
-  if (!date) return '';
+  if (!date) return "";
   try {
     const d = new Date(date);
     return d.toISOString().slice(0, 16);
   } catch {
-    return '';
+    return "";
   }
 };
 
@@ -50,14 +50,18 @@ const handleChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
   const formatted = formatDateForValue(target.value);
   if (props.modelValue !== undefined) {
-    (defineEmits('update:modelValue'))(formatted);
+    defineEmits("update:modelValue")(formatted);
   }
 };
 </script>
 
 <template>
   <div class="space-y-1">
-    <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700">
+    <label
+      v-if="label"
+      :for="id"
+      class="block text-sm font-medium text-gray-700"
+    >
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>

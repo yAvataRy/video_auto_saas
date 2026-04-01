@@ -97,7 +97,10 @@
     </div>
 
     <!-- Upcoming Scheduled -->
-    <div v-if="upcomingSchedules.length > 0" class="bg-white rounded-lg shadow p-6 mb-8">
+    <div
+      v-if="upcomingSchedules.length > 0"
+      class="bg-white rounded-lg shadow p-6 mb-8"
+    >
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-semibold text-gray-800">
           <Icon name="mdi:calendar-clock" class="w-5 h-5 inline mr-2" />
@@ -225,13 +228,14 @@
 </template>
 
 <script setup lang="ts">
-import { formatScheduledDate } from '~/ utils/scheduling';
+import { formatScheduledDate } from "~/ utils/scheduling";
 
 definePageMeta({
   middleware: "auth",
 });
 
-const { projects, loading, fetchProjects, getUpcomingSchedules } = useProjects();
+const { projects, loading, fetchProjects, getUpcomingSchedules } =
+  useProjects();
 
 const projectCount = computed(() => projects.value.length);
 const activeProjectCount = computed(

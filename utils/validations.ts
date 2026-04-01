@@ -35,7 +35,7 @@ export const projectSchema = z.object({
         const now = new Date();
         return scheduled > now;
       },
-      { message: "Data agendada deve ser no futuro" }
+      { message: "Data agendada deve ser no futuro" },
     ),
 });
 
